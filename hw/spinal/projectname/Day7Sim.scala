@@ -7,8 +7,8 @@ import spinal.core.sim._
 import projectname.sim.simLog
 
 object Day7Sim extends App {
-  val cardValues = List('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A').zipWithIndex.toMap
-  //val cardValues = List('2', '3').zipWithIndex.toMap
+  //val cardValues = List('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A').zipWithIndex.toMap
+  val cardValues = List('2', '3').zipWithIndex.toMap
   Config.sim.compile({
     val dut = Day7(cardValues)
     dut.fsm.numberOfHands.value.simPublic()
@@ -29,6 +29,9 @@ object Day7Sim extends App {
       .toList
 
     dut.io.cards.last #= false
+    dut.io.cards.fragment.value #= 1000
+    (0 to 4).iterator.foreach{ idx => dut.io.cards.fragment.cards(idx) #= 0}
+
 
     // Fork a process to generate the reset and the clock on the dut
     dut.clockDomain.forkStimulus(period = 10)
